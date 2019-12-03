@@ -3,15 +3,18 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Rule
 {
     public char lhs;
     public string rhs;
 
+    /*
     public Rule(char lhsIn, string rhsIn) {
         lhs = lhsIn;
         rhs = rhsIn;
     }
+    */
 }
 
 public class Turtle
@@ -65,18 +68,20 @@ public class ElleSys : MonoBehaviour
     public GameObject myPrefab;
     public int depth = 1;
     public float posOffset = 1.0f;
-    public float pushRotOffset = 45.0f; // degrees
-    public float popRotOffset = -45.0f; // degrees
+    public float anglePlus = 45.0f; // degrees
+    public float angleMinus = -45.0f; // degrees
 
     public string axiom = "0";
-    private Rule[] rules = new Rule[2];
+    public List<Rule> rules = new List<Rule>();
 
     // apply rules to work string.
-    string Expand(Rule[] rules, string work) {
+    string Expand(List<Rule> rules, string work) {
+        Debug.Log("work = " + work);
         StringBuilder b = new StringBuilder();
         foreach (char c in work) {
             bool foundRule = false;
             foreach (Rule rule in rules) {
+                Debug.Log("trying = " + rule.lhs + " -> " + rule.rhs);
                 if (rule.lhs == c) {
                     // apply rule
                     b.Append(rule.rhs);
@@ -89,6 +94,8 @@ public class ElleSys : MonoBehaviour
                 b.Append(c);
             }
         }
+
+        Debug.Log("return = " + b.ToString());
         return b.ToString();
     }
 
@@ -99,27 +106,28 @@ public class ElleSys : MonoBehaviour
         // rules for binary tree.
         axiom = "0";
         posOffset = 1.0f;
-        pushRotOffset = 45.0f; // degrees
-        popRotOffset = -45.0f; // degrees
+        anglePlus = 45.0f; // degrees
+        angleMinus = -45.0f; // degrees
         rules[0] = new Rule('0', "1[0]0");
         rules[1] = new Rule('1', "11");
         */
 
         // rules for sierpenski's gasket
-        axiom = "F-G-G";
-        posOffset = 1.0f;
-        pushRotOffset = 120.0f; // degrees
-        popRotOffset = -120.0f; // degrees
-        rules[0] = new Rule('F', "F-G+F+F-F");
-        rules[1] = new Rule('G', "GG");
+        //axiom = "F-G-G";
+        //posOffset = 1.0f;
+        //anglePlus = 120.0f; // degrees
+        //angleMinus = -120.0f; // degrees
+        //rules[0] = new Rule('F', "F-G+F+F-F");
+        //rules[1] = new Rule('G', "GG");
 
         string work = axiom;
         for (int i = 0; i < depth; i++) {
+            Debug.Log("Index: " + i);
             work = Expand(rules, work);
         }
         Debug.Log("Result: " + work);
 
-        Turtle turtle = new Turtle(Vector3.zero, Quaternion.AngleAxis(90.0f, Vector3.left));
+        Turtle turtle = new Turtle(transform.position, transform.rotation * Quaternion.AngleAxis(90.0f, Vector3.left));
 
         foreach (char c in work) {
             /*
@@ -144,9 +152,9 @@ public class ElleSys : MonoBehaviour
                 turtle.MoveForward(posOffset);
                 GameObject obj = Instantiate(myPrefab, turtle.GetPosition(), turtle.GetRotation());
             } else if (c == '+') {
-                turtle.Turn(pushRotOffset);
+                turtle.Turn(anglePlus);
             } else if (c == '-') {
-                turtle.Turn(popRotOffset);
+                turtle.Turn(angleMinus);
             }
         }
 
