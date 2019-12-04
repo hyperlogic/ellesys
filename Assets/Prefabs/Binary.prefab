@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6519007576540556062
+--- !u!1 &3971397904710044122
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6519007576540556060}
-  - component: {fileID: 6519007576540556061}
+  - component: {fileID: 3971397904710044120}
+  - component: {fileID: 3971397904710044121}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Binary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6519007576540556060
+--- !u!4 &3971397904710044120
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6519007576540556062}
+  m_GameObject: {fileID: 3971397904710044122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6519007576540556061
+--- !u!114 &3971397904710044121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6519007576540556062}
+  m_GameObject: {fileID: 3971397904710044122}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c2cda4e2a836f74bba06b3f6fe7d716, type: 3}
@@ -45,12 +45,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac, type: 3}
   depth: 3
-  posOffset: 1
-  anglePlus: 120
-  angleMinus: -120
-  axiom: F-G-G
+  axiom: 0
   rules:
-  - lhs: 70
-    rhs: F-G+F+F-F
-  - lhs: 71
-    rhs: GG
+  - lhs: 48
+    rhs: 1[0]0
+  - lhs: 49
+    rhs: 11
+  actions:
+  - symbol: 48
+    moveZ: 1
+    rotX: 0
+    rotY: 0
+    rotZ: 0
+    push: 0
+    pop: 0
+  - symbol: 49
+    moveZ: 1
+    rotX: 0
+    rotY: 0
+    rotZ: 0
+    push: 0
+    pop: 0
+  - symbol: 91
+    moveZ: 0
+    rotX: 45
+    rotY: 0
+    rotZ: 0
+    push: 1
+    pop: 0
+  - symbol: 93
+    moveZ: 0
+    rotX: -45
+    rotY: 0
+    rotZ: 0
+    push: 0
+    pop: 1

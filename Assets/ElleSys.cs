@@ -8,13 +8,18 @@ public class Rule
 {
     public char lhs;
     public string rhs;
+}
 
-    /*
-    public Rule(char lhsIn, string rhsIn) {
-        lhs = lhsIn;
-        rhs = rhsIn;
-    }
-    */
+[System.Serializable]
+public class Action
+{
+    public char symbol;
+    public float moveZ;
+    public float rotX;
+    public float rotY;
+    public float rotZ;
+    public bool push;
+    public bool pop;
 }
 
 public class Turtle
@@ -38,9 +43,9 @@ public class Turtle
     }
 
     // angle is in degrees
-    public void Turn(float angle) {
+    public void Turn(Vector3 eulerAngles) {
         Matrix4x4 top = matStack.Pop();
-        top = top * Matrix4x4.Rotate(Quaternion.AngleAxis(angle, Vector3.right));
+        top = top * Matrix4x4.Rotate(Quaternion.Euler(eulerAngles));
         matStack.Push(top);
     }
 
@@ -67,12 +72,10 @@ public class ElleSys : MonoBehaviour
 {
     public GameObject myPrefab;
     public int depth = 1;
-    public float posOffset = 1.0f;
-    public float anglePlus = 45.0f; // degrees
-    public float angleMinus = -45.0f; // degrees
 
     public string axiom = "0";
     public List<Rule> rules = new List<Rule>();
+    public List<Action> actions = new List<Action>();
 
     // apply rules to work string.
     string Expand(List<Rule> rules, string work) {
@@ -102,82 +105,32 @@ public class ElleSys : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        // rules for binary tree.
-        axiom = "0";
-        posOffset = 1.0f;
-        anglePlus = 45.0f; // degrees
-        angleMinus = -45.0f; // degrees
-        rules[0] = new Rule('0', "1[0]0");
-        rules[1] = new Rule('1', "11");
-        */
-
-        // rules for sierpenski's gasket
-        //axiom = "F-G-G";
-        //posOffset = 1.0f;
-        //anglePlus = 120.0f; // degrees
-        //angleMinus = -120.0f; // degrees
-        //rules[0] = new Rule('F', "F-G+F+F-F");
-        //rules[1] = new Rule('G', "GG");
-
         string work = axiom;
         for (int i = 0; i < depth; i++) {
-            Debug.Log("Index: " + i);
             work = Expand(rules, work);
         }
-        Debug.Log("Result: " + work);
 
         Turtle turtle = new Turtle(transform.position, transform.rotation * Quaternion.AngleAxis(90.0f, Vector3.left));
 
         foreach (char c in work) {
-            /*
-            // for binary tree
-            if (c == '0' || c == '1') {
-                // "draw forward"
-                turtle.MoveForward(posOffset);
-                GameObject obj = Instantiate(myPrefab, turtle.GetPosition(), turtle.GetRotation());
-            } else if (c == '[') {
-                // push and turn
-                turtle.Push();
-                turtle.Turn(pushRotOffset);
-            } else if (c == ']') {
-                // pop and turn
-                turtle.Pop();
-                turtle.Turn(popRotOffset);
-            }
-            */
-
-            if (c == 'F' || c == 'G') {
-                // "draw forward"
-                turtle.MoveForward(posOffset);
-                GameObject obj = Instantiate(myPrefab, turtle.GetPosition(), turtle.GetRotation());
-            } else if (c == '+') {
-                turtle.Turn(anglePlus);
-            } else if (c == '-') {
-                turtle.Turn(angleMinus);
+            foreach (Action action in actions) {
+                if (action.symbol == c) {
+                    if (action.pop) {
+                        turtle.Pop();
+                    }
+                    if (action.push) {
+                        turtle.Push();
+                    }
+                    if (action.rotX != 0.0f || action.rotY != 0.0f || action.rotZ != 0.0f) {
+                        turtle.Turn(new Vector3(action.rotX, action.rotY, action.rotZ));
+                    }
+                    if (action.moveZ != 0.0f) {
+                        turtle.MoveForward(action.moveZ);
+                        Instantiate(myPrefab, turtle.GetPosition(), turtle.GetRotation());
+                    }
+                }
             }
         }
-
-        /*
-        GameObject prevObj = null;
-        bool hasPrevObj = false;
-        for (int i = 0; i < depth; i++) {
-            // Instantiate at position (0, 0, 0) and zero rotation.
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(pushRotOffset, 0.0f, 0.0f);
-            Vector3 translation = new Vector3(0, posOffset, 0);
-            Vector3 scale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-            GameObject obj = Instantiate(myPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
-            if (hasPrevObj) {
-                obj.transform.SetParent(prevObj.transform);
-            }
-            obj.transform.localPosition = translation;
-            obj.transform.localRotation = rotation;
-            obj.transform.localScale = scale;
-            prevObj = obj;
-            hasPrevObj = true;
-        }
-        */
     }
 
     // Update is called once per frame
