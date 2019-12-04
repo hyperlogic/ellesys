@@ -20,6 +20,7 @@ public class Action
     public float rotZ;
     public bool push;
     public bool pop;
+    public bool leaf;
 }
 
 public class Turtle
@@ -70,7 +71,8 @@ public class Turtle
 
 public class ElleSys : MonoBehaviour
 {
-    public GameObject myPrefab;
+    public GameObject trunkPrefab;
+    public GameObject leafPrefab;
     public int depth = 1;
 
     public string axiom = "0";
@@ -126,7 +128,11 @@ public class ElleSys : MonoBehaviour
                     }
                     if (action.moveZ != 0.0f) {
                         turtle.MoveForward(action.moveZ);
-                        Instantiate(myPrefab, turtle.GetPosition(), turtle.GetRotation());
+                        if (action.leaf) {
+                            Instantiate(leafPrefab, turtle.GetPosition(), turtle.GetRotation());
+                        } else {
+                            Instantiate(trunkPrefab, turtle.GetPosition(), turtle.GetRotation());
+                        }
                     }
                 }
             }
