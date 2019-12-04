@@ -137,7 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2cda4e2a836f74bba06b3f6fe7d716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac, type: 3}
+  trunkPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac,
+    type: 3}
+  leafPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac,
+    type: 3}
   depth: 3
   axiom: F-G-G
   rules:
@@ -153,6 +156,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 0
   - symbol: 71
     moveZ: 1
     rotX: 0
@@ -160,6 +164,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 0
   - symbol: 43
     moveZ: 0
     rotX: 120
@@ -167,6 +172,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 0
   - symbol: 45
     moveZ: 0
     rotX: -120
@@ -174,3 +180,4 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 0

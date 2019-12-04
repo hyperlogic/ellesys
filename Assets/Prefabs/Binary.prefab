@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2cda4e2a836f74bba06b3f6fe7d716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac, type: 3}
+  trunkPrefab: {fileID: 963870616274107994, guid: 937490f253f26014fbe44821bb9031ac,
+    type: 3}
+  leafPrefab: {fileID: 3009797449521505545, guid: 5f4afd48ae4b6a6489dc84c539ce3987,
+    type: 3}
   depth: 3
   axiom: 0
   rules:
@@ -60,6 +63,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 1
   - symbol: 49
     moveZ: 1
     rotX: 0
@@ -67,6 +71,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 0
+    leaf: 0
   - symbol: 91
     moveZ: 0
     rotX: 45
@@ -74,6 +79,7 @@ MonoBehaviour:
     rotZ: 0
     push: 1
     pop: 0
+    leaf: 0
   - symbol: 93
     moveZ: 0
     rotX: -45
@@ -81,6 +87,7 @@ MonoBehaviour:
     rotZ: 0
     push: 0
     pop: 1
+    leaf: 0
 --- !u!1 &8858055794305355065
 GameObject:
   m_ObjectHideFlags: 0
